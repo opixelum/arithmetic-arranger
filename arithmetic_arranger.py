@@ -135,7 +135,7 @@ def arranged_problems_string(problems, show_answers=False):
         # Add the space between the problems
         if i < len(problems) - 1:
             arranged_problems += "    "
-        else:
+        elif show_answers:
             arranged_problems += "\n"
 
     # Build line 4 if show_answers is True
