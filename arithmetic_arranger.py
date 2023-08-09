@@ -16,8 +16,9 @@ def arithmetic_arranger(problems, show_answers=False):
         string if an error occurs.
     """
     # Check if the format of the problems is valid
-    if not problems_format_checker(problems):
-        return ""
+    format_error = problems_format_checker(problems)
+    if format_error != "":
+        return format_error
 
     return arranged_problems_string(problems, show_answers)
 
@@ -32,37 +33,33 @@ def problems_format_checker(problems):
         be less than or equal to 5.
 
     Returns:
-        bool: True if the format is valid, False otherwise.
+        string: Error message if the format of the problems is invalid. Empty
+        string if the format of the problems is valid.
     """
     # Check if problem list is empty
     if len(problems) == 0:
-        print("Error: Problem list is empty.")
-        return False
+        return "Error: Problem list is empty."
 
     # Check if the number of problems is valid
     if len(problems) > 5:
-        print("Error: Too many problems.")
-        return False
+        return "Error: Too many problems."
     
     # Check if the operator is valid
     for problem in problems:
         if problem.split()[1] not in ["+", "-"]:
-            print("Error: Operator must be '+' or '-'.")
-            return False
+            return "Error: Operator must be '+' or '-'."
 
     # Check if the operands are digits
     for problem in problems:
         if not problem.split()[0].isdigit() or not problem.split()[2].isdigit():
-            print("Error: Numbers must only contain digits.")
-            return False
+            return "Error: Numbers must only contain digits."
 
     # Check if the operands are less than 5 digits
     for problem in problems:
         if len(problem.split()[0]) > 4 or len(problem.split()[2]) > 4:
-            print("Error: Numbers cannot be more than four digits.")
-            return False
+            return "Error: Numbers cannot be more than four digits."
 
-    return True
+    return ""
 
 
 def arranged_problems_string(problems, show_answers=False):
@@ -81,10 +78,6 @@ def arranged_problems_string(problems, show_answers=False):
         str: String of the arranged problems, each separated by 4 spaces. Empty
         string if an error occurs.
     """
-    # Check if the format of the problems is valid
-    if not problems_format_checker(problems):
-        return ""
-
     # Build arranged problems string
     arranged_problems = ""
     first_operands = []
@@ -176,7 +169,7 @@ def resolve_problems(problems):
         i corresponds to the result of problem i. Empty list if an error occurs.
     """
     # Check if the format of the problems is valid
-    if not problems_format_checker(problems):
+    if problems_format_checker(problems) != "":
         return []
 
     # Resolve the problems
